@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#14213D" />
+    <meta
+      name="description"
+      content="Discover student-friendly rentals in Canada and book property viewings before you arrive."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Apply the saved palette before the first paint, avoiding a light flash.
+      (() => {
+        let theme = "dark";
+        try {
+          const saved = localStorage.getItem("homebridge-theme");
+          if (saved === "light" || saved === "dark") theme = saved;
+        } catch {
+          /* Storage may be unavailable in restricted browser sessions. */
+        }
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        document.querySelector('meta[name="theme-color"]').content =
+          theme === "dark" ? "#14213D" : "#F4EDE0";
+      })();
+    </script>
+    <title>HomeBridge · Find your next home</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/client/src/main.tsx"></script>
+  </body>
+</html>
