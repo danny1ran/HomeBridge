@@ -221,7 +221,7 @@ export function PropertyForm() {
               <input
                 name="city"
                 required
-                defaultValue={data?.city || "Peterborough"}
+                defaultValue={data?.city || "North York"}
               />
             </label>
             <label>
@@ -236,8 +236,10 @@ export function PropertyForm() {
               Nearby university
               <select name="university" defaultValue={data?.university || ""}>
                 <option value="">Not specified</option>
-                <option>Trent University</option>
-                <option>Fleming College</option>
+                <option>York University</option>
+                <option>Seneca Polytechnic</option>
+                <option>McMaster University</option>
+                <option>Mohawk College</option>
               </select>
             </label>
             <label>
