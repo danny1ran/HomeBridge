@@ -4,6 +4,8 @@ export interface Property {
   title: string;
   description: string;
   city: string;
+  latitude?: number | null;
+  longitude?: number | null;
   province: string;
   university: string;
   address: string;
