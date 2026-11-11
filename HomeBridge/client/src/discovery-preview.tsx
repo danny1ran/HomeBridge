@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { PropertyMap } from "./property-map";
 import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowRight,
@@ -9,9 +10,7 @@ import {
   Compass,
   Heart,
   House,
-  Map,
   MapPin,
-  Search,
   ShieldCheck,
   Video,
 } from "lucide-react";
@@ -28,13 +27,23 @@ export function DiscoveryPreview({
 }) {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
-  const homes = properties.slice(0, 5);
-  const property = homes[detail ? 0 : selected] || homes[0];
-  function choose(index: number) {
-    if (detail) navigate(`/properties/${homes[index].id}`);
-    else setSelected(index);
+const [mapSelection, setMapSelection] = useState<string | null>(null);
+
+const homes = properties.slice(0, 6);
+const property = homes[detail ? 0 : selected] || homes[0];
+const mapHome = homes.find((home) => home.id === mapSelection) || property;
+
+function choose(index: number) {
+  setMapSelection(homes[index].id);
+
+  if (detail) {
+    navigate(`/properties/${homes[index].id}`);
+  } else {
+    setSelected(index);
   }
-  if (!property) return null;
+}
+
+if (!property) return null;
   return (
     <div
       className="discovery-window"
