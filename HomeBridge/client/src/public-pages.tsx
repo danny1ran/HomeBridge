@@ -46,18 +46,56 @@ import { FaqItem } from "./motion";
 import { ViewingWalkthrough } from "./viewing-walkthrough";
 import { DiscoveryPreview } from "./discovery-preview";
 
-const types = ["Private room", "Shared room", "Studio", "Entire apartment"];
-export function SearchBar() {
+const types = [
+  "Private room",
+  "Shared room",
+  "Studio",
+  "Entire apartment",
+];
+
+const suggestedCities = [
+  "North York", "Toronto", "Ottawa", "Mississauga", "Brampton",
+  "Hamilton", "London", "Windsor", "Kingston", "Waterloo",
+  "Kitchener", "Guelph", "Peterborough", "Oshawa", "Barrie",
+  "Sudbury", "Thunder Bay", "Montréal", "Québec", "Laval",
+  "Gatineau", "Sherbrooke", "Trois-Rivières", "Saguenay",
+  "Vancouver", "Victoria", "Surrey", "Burnaby", "Richmond",
+  "Kelowna", "Kamloops", "Nanaimo", "Prince George",
+  "Calgary", "Edmonton", "Red Deer", "Lethbridge",
+  "Medicine Hat", "Winnipeg", "Brandon", "Saskatoon", "Regina",
+  "Halifax", "Sydney", "Fredericton", "Moncton", "Saint John",
+  "Charlottetown", "Summerside", "St. John's", "Corner Brook",
+  "Whitehorse", "Yellowknife", "Iqaluit",
+];
+
+export function SearchBar({
+  cities = [],
+}: {
+  cities?: string[];
+}) {
+  const [budget, setBudget] = useState(10000);
   const navigate = useNavigate();
+
+  const suggestions = [
+    ...new Set([...suggestedCities, ...cities]),
+  ].sort((a, b) => a.localeCompare(b));
+
   return (
     <form
       className="hero-search"
-      onSubmit={(e) => {
-        e.preventDefault();
-        const f = new FormData(e.currentTarget);
-        const p = new URLSearchParams();
-        for (const [k, v] of f) if (v) p.set(k, String(v));
-        navigate(`/browse?${p}`);
+      onSubmit={(event) => {
+        event.preventDefault();
+
+        const form = new FormData(event.currentTarget);
+        const params = new URLSearchParams();
+
+        for (const [key, value] of form) {
+          if (String(value).trim()) {
+            params.set(key, String(value).trim());
+          }
+        }
+
+        navigate(`/browse?${params}`);
       }}
     >
       <label>
@@ -65,29 +103,69 @@ export function SearchBar() {
           <MapPin size={14} />
           WHERE TO?
         </span>
-        <select name="city" defaultValue="Peterborough">
-          <option>Peterborough</option>
-          <option value="">All cities</option>
-        </select>
+
+        <input
+          name="city"
+          list="canadian-city-suggestions"
+          placeholder="All cities · type to search"
+          aria-label="Canadian city"
+          aria-describedby="city-search-help"
+          maxLength={100}
+          autoComplete="off"
+        />
+
+        <datalist id="canadian-city-suggestions">
+          {suggestions.map((city) => (
+            <option value={city} key={city} />
+          ))}
+        </datalist>
+
+        <small id="city-search-help">
+          Enter any Canadian city, or leave blank for all.
+        </small>
       </label>
-      <label>
+
+      <label className="budget-slider">
         <span>MONTHLY BUDGET</span>
-        <select name="max">
-          <option value="">Any budget</option>
-          <option value="800">Up to $800</option>
-          <option value="1200">Up to $1,200</option>
-          <option value="1800">Up to $1,800</option>
-        </select>
+
+        <output htmlFor="hero-budget">
+          Up to {money(budget)} CAD
+        </output>
+
+        <input
+          id="hero-budget"
+          name="max"
+          type="range"
+          min={0}
+          max={10000}
+          step={50}
+          value={budget}
+          onChange={(event) =>
+            setBudget(Number(event.target.value))
+          }
+          aria-label="Maximum monthly rent in Canadian dollars"
+          aria-valuetext={`${budget.toLocaleString(
+            "en-CA",
+          )} Canadian dollars per month`}
+        />
+
+        <span className="budget-endpoints" aria-hidden="true">
+          <span>$0</span>
+          <span>$10,000</span>
+        </span>
       </label>
+
       <label>
         <span>YOUR SPACE</span>
+
         <select name="room_type">
           <option value="">Any room type</option>
-          {types.map((t) => (
-            <option key={t}>{t}</option>
+          {types.map((type) => (
+            <option key={type}>{type}</option>
           ))}
         </select>
       </label>
+
       <button className="button search-submit">
         <Search size={18} />
         Find a home
@@ -107,19 +185,15 @@ export function Home() {
     <>
       <section className="saas-hero discovery-hero">
         <div className="saas-intro">
-          <div className="launch-pill">
-            <span className="status-dot" />A better way to find student housing{" "}
-            <ArrowUpRight size={12} />
-          </div>
-          <h1>
-            A new chapter. A place to belong.
-            <br />
-            <span>Find it before you arrive.</span>
-          </h1>
-          <p>
-            Discover student-friendly rentals in Canada, meet landlords, and
-            book a viewing. One place to plan your next chapter.
-          </p>
+        <h1>
+  Find your next home.
+  <br />
+  <span>Before you arrive.</span>
+</h1>
+<p>
+  Discover student-friendly rentals in Canada and book virtual
+  or in-person viewings, wherever you are.
+</p>
           <div className="hero-ctas">
             <Link className="button" to="/browse">
               Find a home <ArrowRight size={16} />
@@ -155,27 +229,29 @@ export function Home() {
         <div className="landing-search">
           <div>
             <span className="eyebrow">MAKE YOURSELF AT HOME</span>
-            <h2>Your space. Your budget. Your next chapter.</h2>
+            <h2>Search by city, budget, and room type.</h2>
           </div>
-          <SearchBar />
+          <SearchBar cities={data?.map((home) => home.city)} />
         </div>
         <div className="campus-strip">
-          <span>Starting in Peterborough. Built for students near</span>
-          <strong>Trent University</strong>
-          <i />
-          <strong>Fleming College</strong>
-        </div>
+  <span>
+    Demo areas: North York & Hamilton. For students near
+  </span>
+  <strong>York University · Seneca Polytechnic</strong>
+  <i />
+  <strong>McMaster University · Mohawk College</strong>
+</div>
       </section>
       <DemoBanner />
       <section className="section">
         <div className="section-heading">
           <div>
             <p className="eyebrow">A SPACE THAT FEELS LIKE YOU</p>
-            <h2>Find your kind of home.</h2>
+            <h2>Explore student rentals.</h2>
             <p>
-              Comfortable spaces. Fresh starts. Explore student rentals in
-              Peterborough.
-            </p>
+  Explore fictional student rentals in North York and Hamilton.
+  Sample prices and photos are for demonstration only.
+</p>
           </div>
           <Link className="text-link" to="/browse">
             Explore all rentals <ArrowUpRight size={18} />
@@ -375,7 +451,10 @@ export function Browse() {
     const f = new FormData(e.currentTarget),
       p = new URLSearchParams();
     for (const [k, v] of f) if (v) p.set(k, String(v));
-    if (Number(p.get("min") || 0) > Number(p.get("max") || Infinity)) {
+    if (
+  Number(p.get("min") || 0) >
+  (p.has("max") ? Number(p.get("max")) : Infinity)
+) {
       setFilterError("Minimum rent cannot exceed maximum rent.");
       return;
     }
@@ -407,8 +486,10 @@ export function Browse() {
               defaultValue={params.get("university") || ""}
             >
               <option value="">All universities</option>
-              <option>Trent University</option>
-              <option>Fleming College</option>
+<option>York University</option>
+<option>Seneca Polytechnic</option>
+<option>McMaster University</option>
+<option>Mohawk College</option>
             </select>
           </label>
           <label>
