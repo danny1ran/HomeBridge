@@ -190,90 +190,34 @@ if (!property) return null;
           )}
         </div>
       </div>
-      <div className="neighbourhood-preview">
-        <svg
-          className="neighbourhood-art"
-          viewBox="0 0 500 700"
-          preserveAspectRatio="xMidYMid slice"
-          aria-hidden="true"
-        >
-          <rect width="500" height="700" fill="var(--map-land)" />
-          <g fill="var(--map-park)">
-            <path d="M370 0h130v165l-65 20-45-55z" />
-            <path d="M0 420l90-15 55 65-40 95H0z" />
-            <path d="M290 570l100-40 70 100-15 70H300z" />
-          </g>
-          <path
-            d="M350-30C170 130 390 250 240 400S260 620 140 730"
-            fill="none"
-            stroke="var(--map-water)"
-            strokeWidth="55"
-          />
-          <g fill="none" stroke="var(--map-road)" strokeWidth="9">
-            <path d="M-60 110L520 640M-90 240L470 750M-40-50L520 460M90-50L540 310M-80 410L380-40M-60 570L520 20M-10 710L550 180M180 730L550 370" />
-            <path d="M80 0v180l100 90-70 130 60 130-50 170" />
-          </g>
-          <path
-            d="M-30 650L110 505Q150 460 195 475T290 430L530 185"
-            fill="none"
-            stroke="var(--map-road)"
-            strokeWidth="23"
-          />
-          <path
-            d="M-30 650L110 505Q150 460 195 475T290 430L530 185"
-            fill="none"
-            stroke="#fbca5a"
-            strokeWidth="12"
-          />
-        </svg>
-        <div className="map-location">
-          <span>
-            <Map size={19} />
-          </span>
-          <div>
-            <Search size={15} />
-            {property.city}, ON
-          </div>
-        </div>
-        <span className="map-area area-one">A NEW NEIGHBOURHOOD</span>
-        <span className="map-area area-two">A FRESH START</span>
-        <div className="map-property">
-          <PropertyImage src={property.property_images[0]?.image_url} alt="" />
-          <div>
-            <strong>
-              {money(property.monthly_rent)}
-              <small> / mo</small>
-            </strong>
-            <p>{property.room_type}</p>
-            {detail ? (
-              <a href="#property-information">
-                Show details <ArrowUpRight size={12} />
-              </a>
-            ) : (
-              <Link to={`/properties/${property.id}`}>
-                Show details <ArrowUpRight size={12} />
-              </Link>
-            )}
-          </div>
-        </div>
-        <span className="map-selected-dot" aria-hidden="true" />
-        {homes.map((home, index) => (
-          <button
-            key={home.id}
-            className={`map-home map-home-${index} ${property.id === home.id ? "chosen" : ""}`}
-            aria-label={`Show ${home.title} on preview`}
-            aria-pressed={property.id === home.id}
-            onClick={() => choose(index)}
-          >
-            <PropertyImage src={home.property_images[0]?.image_url} alt="" />
-            <span>{money(home.monthly_rent)}</span>
-          </button>
-        ))}
-        <div className="map-disclaimer">
-          <MapPin size={13} />
-          Illustrative map · not property locations
-        </div>
-      </div>
+            <PropertyMap
+        properties={homes}
+        selectedId={mapHome.id}
+        onSelect={(id) => {
+          setMapSelection(id);
+
+          if (!detail) {
+            setSelected(
+              homes.findIndex((home) => home.id === id),
+            );
+          }
+        }}
+        onDetails={(id) => {
+          if (detail && id === property.id) {
+            document
+              .getElementById("property-information")
+              ?.scrollIntoView({
+                behavior: window.matchMedia(
+                  "(prefers-reduced-motion: reduce)",
+                ).matches
+                  ? "instant"
+                  : "smooth",
+              });
+          } else {
+            navigate(`/properties/${id}`);
+          }
+        }}
+      />
     </div>
   );
 }
