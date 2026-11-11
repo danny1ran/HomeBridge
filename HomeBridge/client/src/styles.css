@@ -4503,3 +4503,369 @@ html {
   margin-top: 8px;
   color: var(--muted);
 }
+/* Hero spacing after removing the badge */
+.discovery-hero {
+  padding-top: clamp(32px, 4vw, 52px);
+}
+
+.discovery-hero .saas-intro h1 {
+  margin-top: 0;
+}
+
+/* City input and budget slider */
+.hero-search input[name="city"] {
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  color: var(--text);
+  border: 0;
+  padding: 8px 0;
+  font: inherit;
+  font-weight: 600;
+}
+
+.hero-search input[name="city"]::placeholder {
+  color: var(--muted);
+  opacity: 1;
+  font-size: 13px;
+}
+
+.hero-search small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.hero-search .budget-slider {
+  min-width: 0;
+}
+
+.budget-slider output {
+  display: block;
+  margin: 6px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.hero-search input[type="range"] {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0;
+  accent-color: #4c93ed;
+  cursor: pointer;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.hero-search .budget-endpoints {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hero-search .budget-endpoints span {
+  font-size: 10px;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+.hero-search input:focus-visible {
+  outline: 3px solid #80b4ff;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Balanced search layout */
+.landing-search .hero-search {
+  grid-template-columns:
+    minmax(0, 1.25fr)
+    minmax(0, 1fr)
+    minmax(0, 1fr)
+    auto;
+  align-items: start;
+  gap: clamp(16px, 2vw, 24px);
+  padding: clamp(18px, 2.4vw, 28px);
+}
+
+.landing-search .hero-search > label {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  grid-column: auto;
+}
+
+.landing-search .hero-search select {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  font-size: 14px;
+}
+
+.landing-search .hero-search input[name="city"] {
+  min-height: 40px;
+  font-size: 14px;
+}
+
+.landing-search .hero-search small {
+  font-size: 11px;
+}
+
+.landing-search .budget-slider output {
+  font-size: clamp(13px, 1.2vw, 16px);
+  margin: 0;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.landing-search .hero-search .search-submit {
+  align-self: center;
+  height: 48px;
+  min-height: 48px;
+  padding: 12px 20px;
+  white-space: nowrap;
+  grid-column: auto;
+  font-size: 14px;
+}
+
+@media (max-width: 1100px) {
+  .landing-search .hero-search {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .landing-search .hero-search .search-submit {
+    align-self: end;
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .landing-search .hero-search {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .landing-search .hero-search > label,
+  .landing-search .hero-search .search-submit {
+    grid-column: 1;
+  }
+}
+
+/* Interactive geographic map */
+.geographic-map {
+  min-width: 0;
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+}
+
+.geographic-map-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 14px;
+}
+
+.geographic-map-toolbar button {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 8px 10px;
+  min-height: 40px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.geographic-map-canvas {
+  width: 100%;
+  height: 430px;
+  min-height: 430px;
+  z-index: 0;
+  background: var(--soft);
+}
+
+.geographic-map-note {
+  padding: 10px 14px;
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.map-home-picker {
+  padding: 0 14px 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.map-home-picker button {
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 9px;
+  padding: 9px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.map-home-picker small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.map-home-picker button[aria-pressed="true"] {
+  border-color: var(--discovery-blue);
+  box-shadow: inset 0 0 0 1px var(--discovery-blue);
+}
+
+.geographic-map button:focus-visible,
+.geographic-map a:focus-visible {
+  outline: 3px solid #4c93ed;
+  outline-offset: 3px;
+}
+
+.geographic-map .home-map-pin {
+  background: var(--surface);
+  border: 2px solid var(--text);
+  border-radius: 18px;
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 3px 9px #0005;
+  font: 600 12px "Be Vietnam Pro", sans-serif;
+}
+
+.geographic-map .home-map-pin.is-selected {
+  background: #1252ae;
+  color: #fff;
+  border-color: #fff;
+  outline: 3px solid #80b4ff;
+}
+
+.geographic-map .home-map-popup {
+  font-family: "Be Vietnam Pro", sans-serif;
+  color: var(--text);
+}
+
+.home-map-popup strong {
+  display: block;
+  font-size: 13px;
+}
+
+.home-map-popup p {
+  margin: 8px 0;
+  font-size: 11px;
+}
+
+.geographic-map .home-map-popup small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.home-map-popup button {
+  display: block;
+  margin-top: 10px;
+  background: #1252ae;
+  color: white;
+  border: 0;
+  border-radius: 7px;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Theme map tiles without inverting pins or popup text */
+.geographic-map .leaflet-tile-pane {
+  filter: none;
+}
+
+[data-theme="dark"] .geographic-map .leaflet-tile-pane {
+  filter:
+    invert(.92)
+    hue-rotate(180deg)
+    saturate(.45)
+    brightness(1.25)
+    contrast(.85);
+}
+
+.geographic-map .leaflet-popup-content-wrapper,
+.geographic-map .leaflet-popup-tip {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.geographic-map .leaflet-popup-close-button {
+  color: var(--muted);
+}
+
+.geographic-map .leaflet-popup-close-button:hover {
+  color: var(--text);
+}
+
+.geographic-map .leaflet-bar {
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 10px #0002;
+}
+
+.geographic-map .leaflet-bar a {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--line);
+}
+
+.geographic-map .leaflet-bar a:hover {
+  background: var(--soft);
+}
+
+.geographic-map .leaflet-bar a.leaflet-disabled {
+  background: var(--bg);
+  color: var(--muted);
+  opacity: .65;
+}
+
+.geographic-map .leaflet-control-attribution {
+  font-size: 10px;
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.geographic-map .leaflet-control-attribution a {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+.geographic-map .leaflet-tile {
+  max-width: none !important;
+  max-height: none !important;
+  image-rendering: auto;
+}
+
+@media (max-width: 600px) {
+  .geographic-map {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .geographic-map-canvas {
+    height: 400px;
+    min-height: 400px;
+  }
+}

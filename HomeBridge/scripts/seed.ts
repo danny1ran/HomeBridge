@@ -44,7 +44,7 @@ for (const [email, role, name] of [
   } else if (role === "landlord") owners.push(data.user!.id);
 }
 for (const [i, sample] of demoProperties.entries()) {
-  const { property_images, ...base } = sample;
+  const { property_images, latitude, longitude, ...base } = sample;
   const p = {
     ...base,
     landlord_id: owners[i % owners.length],

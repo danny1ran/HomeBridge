@@ -200,7 +200,7 @@ export function Layout({ children }: { children: ReactNode }) {
               before you arrive.
             </p>
             <span className="footer-location">
-              <MapPin size={14} /> Starting in Peterborough, Ontario
+              <MapPin size={14} /> Starting in North York & Hamilton, Ontario
             </span>
           </div>
           <div>

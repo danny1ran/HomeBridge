@@ -44,7 +44,7 @@ function demoReply(question: string): ChatMessage {
       role: "assistant",
       text: "Let’s try a sample search: Peterborough, up to $1,200/month.\n\nYou can narrow it by room type and campus on the search page. These are fictional demo listings, not confirmed recommendations or availability.",
       link: {
-        to: "/browse?city=Peterborough&max=1200",
+        to: "/browse?city=North%20York&max=1200",
         label: "Try the sample search",
       },
     };
